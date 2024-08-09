@@ -1,0 +1,21 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#define RAIN_SENSOR_PIN A3
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+void setup()
+{
+  lcd.begin(16,2);
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+}
+void loop()
+{
+int rainValue = analogRead(RAIN_SENSOR_PIN);
+lcd.clear();
+lcd.setCursor(0, 0);
+Serial.println(rainValue);
+lcd.print(rainValue);
+delay(1000);  
+}
