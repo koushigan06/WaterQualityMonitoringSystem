@@ -1,0 +1,32 @@
+#define SERIAL Serial
+#define sensorPin A0
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int sensorValue = 0;
+float tdsValue = 0;
+float Voltage = 0;
+
+void setup() {
+    SERIAL.begin(9600);
+    lcd.begin(16,2);
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+
+}
+void loop() {
+    sensorValue = analogRead(sensorPin);
+    Voltage = sensorValue*5/1024.0;\
+    lcd.clear(); 
+    tdsValue=(133.42/Voltage*Voltage*Voltage - 255.86*Voltage*Voltage + 857.39*Voltage)*0.5; 
+    SERIAL.print("TDS Value = "); 
+    lcd.setCursor(0, 0);
+    lcd.print("TDS Value = "); 
+    SERIAL.print(tdsValue);
+    lcd.setCursor(0, 1);
+    lcd.print(tdsValue);
+    //lcd.println(" ppm");
+    SERIAL.println(" ppm");
+    delay(1000);
+}
